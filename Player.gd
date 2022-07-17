@@ -1,11 +1,24 @@
 extends "res://Entity.gd"
 
+enum Weapon {None, Rock = 1, Paper = 2, Scissors = 3}
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+const WEAPON_ROCK = "[color=#fe4444][center]1[/center][/color]"
 
-const WEAPON = "[color=#fe4444][center]123[/center][/color]"
+
+"""
+	  zp
+	  ┌────┐
+   ┌────┐yp│   
+xm │ ym │──┘  xp
+   └────┘
+	  zm
+"""
+var xp = Weapon.None
+var xm = Weapon.None
+var yp = Weapon.None
+var ym = Weapon.None
+var zp = Weapon.None
+var zm = Weapon.None
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,7 +31,7 @@ func _unhandled_key_input(event):
 		return
 
 	if self.try_move(direction):
-		$LeftText.bbcode_text = WEAPON
+		$LeftText.bbcode_text = WEAPON_ROCK
 	else:
 		$LeftText.bbcode_text = ""
 
