@@ -1,5 +1,6 @@
 extends "res://Entity.gd"
 
+var laser_beam_scene = preload("res://LaserBeam.tscn")
 enum Weapon {None, Rock = 1, Paper = 2, Scissors = 3}
 
 """
@@ -65,17 +66,46 @@ func _ready():
 
 # Handles the player's input
 func _unhandled_key_input(event):
-	var direction = get_move_direction(event)
-	if direction == null:
+	var result = infer_event(event)
+	var type = result[0]
+	var direction = result[1]
+	if type == null:
 		return
-
-	self.try_move(direction)
+	elif type == "move":
+		self.try_move(direction)
+	elif type == "fire":
+		self.try_fire(direction)
 
 
 func moved(direction):
 	self.roll(direction)
 
-# Return the direction of the event. Return null if the event is not asking for a move.
+
+# Return the (type, data) of the event. Return null if the event is not recognized.
+func infer_event(event):
+	if event.is_action_pressed("ui_up"):
+		return ["move", Direction.UP]
+	elif event.is_action_pressed("ui_down"):
+		return ["move", Direction.DOWN]
+	elif event.is_action_pressed("ui_left"):
+		return ["move", Direction.LEFT]
+	elif event.is_action_pressed("ui_right"):
+		return ["move", Direction.RIGHT]
+	
+	elif event.is_action_pressed("fire_up"):
+		return ["fire", Direction.UP]
+	elif event.is_action_pressed("fire_down"):
+		return ["fire", Direction.DOWN]
+	elif event.is_action_pressed("fire_left"):
+		return ["fire", Direction.LEFT]
+	elif event.is_action_pressed("fire_right"):
+		return ["fire", Direction.RIGHT]
+	
+	else:
+		return [null, null]
+
+
+# Return the (type, data) of the event. Return null if the event is not recognized.
 func get_move_direction(event):
 	if event.is_action_pressed("ui_up"):
 		return Direction.UP
@@ -94,3 +124,20 @@ func weapon_to_string(weapon_type):
 		return ""
 	else:
 		return "[color=#fe4444][center]" + String(int(weapon_type)) + "[/center][/color]"
+
+
+func try_fire(direction):
+	var laser = laser_beam_scene.instance()
+	var vector = Vector2.ZERO
+	if direction == Direction.UP:
+		vector.y -= 32
+	elif direction == Direction.DOWN:
+		vector.y += 32
+	elif direction == Direction.LEFT:
+		vector.x -= 32
+	elif direction == Direction.RIGHT:
+		vector.x += 32
+	laser.set_point_position(0, self.position + vector)
+	laser.set_point_position(1, self.position + 4 * vector);
+	world.add_child(laser)
+

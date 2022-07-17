@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://LaserBeam.gd" type="Script" id=1]
+
+[node name="LaserBeam" type="Line2D"]
+points = PoolVector2Array( 0, 0, 104, 0 )
+default_color = Color( 0.811765, 0.160784, 0.572549, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
