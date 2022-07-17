@@ -5,3 +5,27 @@
 
 [node name="Node2D" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="RightText" type="RichTextLabel" parent="." index="1"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 72.0
+margin_bottom = 16.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+bbcode_text = "[color=#fe4444][center]Trus.[/center][/color]"
+text = "Trus."
+scroll_active = false
+
+[node name="LeftText" type="RichTextLabel" parent="." index="2"]
+margin_left = -100.0
+margin_top = -16.0
+margin_right = -60.0
+margin_bottom = 16.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+bbcode_text = "[color=red][center]Trus.[/center][/color]"
+text = "Trus."
+scroll_active = false

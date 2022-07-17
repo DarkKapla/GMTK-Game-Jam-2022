@@ -11,7 +11,8 @@ func _ready():
 	coordinates = world.world_to_map(self.position)
 
 
-func move(direction):
+# Request for a move of one step in the direction. Return whether the move was done.
+func try_move(direction):
 	var vector = Vector2.ZERO
 
 	if direction == Direction.UP:
@@ -22,13 +23,17 @@ func move(direction):
 		vector.x -= 1
 	elif direction == Direction.RIGHT:
 		vector.x += 1
+	else:
+		return false
 	
 	if world.is_empty_cell(coordinates + vector):
 		self.coordinates += vector
 		self.position += world.cell_size.x * vector
+		return true
 		
 	else:
 		print("Player movement is blocked.")
+		return false
 	
 	
 
