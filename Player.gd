@@ -2,16 +2,6 @@ extends "res://Entity.gd"
 
 enum Weapon {None, Rock = 1, Paper = 2, Scissors = 3}
 
-func weapon_text(weapon):
-	if weapon == Weapon.Rock:
-		return "[color=#fe4444][center]R[/center][/color]"
-	elif weapon == Weapon.Paper:
-		return "[color=#fe4444][center]P[/center][/color]"
-	elif weapon == Weapon.Scissors:
-		return "[color=#fe4444][center]S[/center][/color]"
-	else:
-		assert(false)
-
 """
 	  yp
 	  ┌────┐
@@ -20,7 +10,7 @@ xm │ zp │──┘  xp
    └────┘
 	  ym
 """
-var xp = Weapon.None
+var xp = Weapon.Rock
 var xm = Weapon.None
 var ym = Weapon.None
 var yp = Weapon.None
@@ -58,8 +48,11 @@ func roll(direction):
 	self.update_texts()
 
 func update_texts():
-	$LeftText.bbcode_text = weapon_text(xm)
-	$RightText.bbcode_text = weapon_text(xp)
+		$LeftText.bbcode_text = weapon_to_string(xm)
+		$RightText.bbcode_text = weapon_to_string(xp)
+		$UpText.bbcode_text = weapon_to_string(ym)
+		$BottomText.bbcode_text = weapon_to_string(yp)
+		$FrontText.bbcode_text = weapon_to_string(zm)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -78,6 +71,7 @@ func _unhandled_key_input(event):
 
 	self.try_move(direction)
 
+
 func moved(direction):
 	self.roll(direction)
 
@@ -93,3 +87,10 @@ func get_move_direction(event):
 		return Direction.RIGHT
 	else:
 		return null
+
+
+func weapon_to_string(weapon_type):
+	if weapon_type == Weapon.None:
+		return ""
+	else:
+		return "[color=#fe4444][center]" + String(int(weapon_type)) + "[/center][/color]"
