@@ -10,6 +10,9 @@ func _ready():
 	world = get_parent()
 	coordinates = world.world_to_map(self.position)
 
+# Will be called after moving. Useful for nodes inheriting from Entity.
+func moved(direction):
+	pass
 
 # Request for a move of one step in the direction. Return whether the move was done.
 func try_move(direction):
@@ -29,6 +32,7 @@ func try_move(direction):
 	if world.is_empty_cell(coordinates + vector):
 		self.coordinates += vector
 		self.position += world.cell_size.x * vector
+		moved(direction)
 		return true
 		
 	else:
